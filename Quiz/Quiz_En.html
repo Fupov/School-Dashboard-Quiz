@@ -1,0 +1,369 @@
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <title>Test d'anglais</title>
+
+    <style>
+        h1 {
+            font-family:'Times New Roman', serif;
+            text-align: center;
+        }
+        ul {
+            list-style: none;
+        }
+        li {
+            font-family:'Cambria', serif;
+            font-size: 1.5em;
+        }
+        input[type=radio] {
+            border: 0px;
+            width: 20px;
+            height: 2em;
+        }
+        p {
+            font-family:'Gabriola', serif;
+        }
+        /* Quiz Classes */
+        .quizContainer {
+
+            background-color: white;
+            border-radius: 6px;
+            width: 80%;
+            height: 500px;
+            margin: auto;
+            padding-top: 20px;
+            /*-moz-box-shadow: 10px 10px 5px #888;
+            -webkit-box-shadow: 10px 10px 5px #888;
+            box-shadow: 10px 10px 5px #888;*/
+            position: relative;
+        }
+        .quizcontainer #quiz1
+        {
+
+            font-family:"Georgia", Arial, sans-serif;
+            color: black;
+        }
+        .nextButton {
+            box-shadow: 3px 3px 5px #888;
+            border-radius: 6px;
+            width: 190px;
+            height: 50px;
+            text-align: center;
+            background-color: #1a6c7a;
+            /*clear: both;*/
+            color: white;
+            font-family:'Gabriola', serif;
+            position: relative;
+            margin: auto;
+            font-size:25px;
+            font-weight:bold;
+            padding-top: 5px;
+            top: 60px;
+            float:right;
+            right:30%;
+        }
+        .nextButton:hover{
+            background-color: #00a0d2;
+        }
+        .preButton:hover{
+            background-color: #00a0d2;
+        }
+        .preButton {
+            box-shadow: 3px 3px 5px #888;
+            border-radius: 6px;
+            width: 190px;
+            height: 50px;
+            text-align: center;
+            background-color: #1a6c7a;
+            /*clear: both;*/
+            color: white;
+            font-family:'Gabriola', serif;
+            position: relative;
+            margin: auto;
+            font-size:25px;
+            font-weight:bold;
+            top: 60px;
+            padding-top: 5px;
+            float:left;
+            left:30%;
+        }
+
+        .question {
+            font-family:'Century', serif;
+            font-size: 1.5em;
+            font-weight:bold;
+            width: 100%;
+            padding-top: 10px;
+            height: 50px;
+            margin-top: 30px;
+            color: whitesmoke;
+            border-radius: 6px;
+            background-color: #1a6c7a;
+            text-align: center;
+        }
+        .quizMessage {
+            background-color: peachpuff;
+            border-radius: 6px;
+            width: 20%;
+            margin: auto;
+            text-align: center;
+            font-size:23px;
+            font-weight:bold;
+            font-family:'Gabriola', serif;
+            color: red;
+            position:absolute;
+            top:80%;
+            left:40%;
+        }
+        .choiceList {
+            padding-top: 20px;
+            font-family: 'Arial', serif;
+            color: black;
+            font-size:15px;
+            font-weight:bold;
+            list-style: none;
+        }
+        .result {
+            width: 70%;
+            height: auto;
+            border-radius: 6px;
+            background-color: linen;
+            margin: auto;
+            color:green;
+            text-align: center;
+            font-size:25px;
+            font-family:'Verdana', serif;
+            font-weight:bold;
+            position:absolute;
+            top:78%;
+            left:15%;
+        }
+        /* End of Quiz Classes */
+    </style>
+<body>
+<script>
+    var questions = [{
+        question: "1.  What is Diane's address ? ",
+        choices: ["His address is 45 King Street.","Its address is 45 King Street. ", "She is 45 King Street.", "Her address is 45 King Street."],
+        correctAnswer: 3
+    }, {
+        question: "2.  Whose keys are these?\n" +
+            ".... are mine.",
+        choices: ["they", "it", "these", "whose"],
+        correctAnswer: 0
+    }, {
+        question: "3. You can't have your cake ______ eat it too.",
+        choices: ["although", "and", "while ","but"],
+        correctAnswer: 1
+    }, {
+        question: "4.  ..... my wife sleeps, I watch TV late at night. ",
+        choices: ["by", "while", "from", "during"],
+        correctAnswer: 1
+    }, {
+        question: "5.  I am American. I am from Boston. ..... hair is brown.",
+        choices: ["the", "my", "mine", "I"],
+        correctAnswer: 1
+    },{
+        question: "6.  You can have ice cream ..... you finish your dinner.",
+        choices: ["when", "but", "and", "while"],
+        correctAnswer: 0
+    },{
+        question: "7.  Next weekend, we hope to ...... for a few days.",
+        choices: ["get on", "get away", "get through", "get of"],
+        correctAnswer: 1
+    },{
+        question: "8.  You can't have your cake ______ eat it too.",
+        choices: ["who", "was", "were", "who were"],
+        correctAnswer: 2
+    },{
+        question: "9.  She ______ blue velvet to the party last night.",
+        choices: ["worn", "war"," wore" ,"wear"],
+        correctAnswer: 2
+    },{
+        question: "10.  I was driving ______ the road when my car started making a funny sound.",
+        choices: ["down", "away", "at", "in"],
+        correctAnswer: 0
+    }];
+
+
+    var currentQuestion = 0;
+    var viewingAns = 0;
+    var correctAnswers = 0;
+    var quizOver = false;
+    var iSelectedAnswer = [];
+    var c=150;
+    var t;
+    $(document).ready(function ()
+    {
+        // Display the first question
+        displayCurrentQuestion();
+        $(this).find(".quizMessage").hide();
+
+        timedCount();
+
+        // On clicking next, display the next question
+        $(this).find(".nextButton").on("click", function ()
+        {
+            if (!quizOver)
+            {
+
+                var val = $("input[type='radio']:checked").val();
+
+                if (val == undefined)
+                {
+                    $(document).find(".quizMessage").text("Choisissez une reponse");
+                    $(document).find(".quizMessage").show();
+                }
+                else
+                {
+                    // TODO: Remove any message -> not sure if this is efficient to call this each time....
+                    $(document).find(".quizMessage").hide();
+                    if (val == questions[currentQuestion].correctAnswer)
+                    {
+                        correctAnswers++;
+                    }
+                    iSelectedAnswer[currentQuestion] = val;
+
+                    currentQuestion++; // Since we have already displayed the first question on DOM ready
+                    if(currentQuestion >= 1) {
+                        $('.preButton').prop("disabled", false);
+                    }
+                    if (currentQuestion < questions.length)
+                    {
+                        displayCurrentQuestion();
+
+                    }
+                    else
+                    {
+                        displayScore();
+                        $('#iTimeShow').html('Temps écoulé');
+                        c=185;
+                        $(document).find(".nextButton").text("S'inscrire");
+                        var h1 = document.getElementById("Inscription")
+                        var att = document.createAttribute("href");       // Create a "class" attribute
+                        att.value = "http://cefolim.com/inscription.php";
+                        h1.setAttributeNode(att)
+                        quizOver = true;
+                        return false;
+
+                    }
+                }
+
+            }
+            else
+            { // quiz is over and clicked the next button (which now displays 'Play Again?'
+                quizOver = false; $('#iTimeShow').html('Time Remaining:'); iSelectedAnswer = [];
+                $(document).find(".nextButton").text("Question Suivante");
+                $(document).find(".preButton").text("Quitter le test");
+                $(".preButton").attr('disabled', 'disabled');
+                resetQuiz();
+                viewingAns = 1;
+                displayCurrentQuestion();
+                hideScore();
+            }
+        });
+    });
+
+
+
+    function timedCount()
+    {
+        if(c == 185)
+        {
+            return false;
+        }
+
+        var hours = parseInt( c / 3600 ) % 24;
+        var minutes = parseInt( c / 60 ) % 60;
+        var seconds = c % 60;
+        var result = (hours < 10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds  < 10 ? "0" + seconds : seconds);
+        $('#timer').html(result);
+
+        if(c == 0 )
+        {
+            displayScore();
+            $('#iTimeShow').html('Temps écoulé');
+            c=185;
+            $(document).find(".nextButton").text("S'inscrire");
+            var h1 = document.getElementById("Inscription")
+            var att = document.createAttribute("href");       // Create a "class" attribute
+            att.value = "http://cefolim.com/inscription.php";
+            h1.setAttributeNode(att);
+            quizOver = true;
+            return false;
+
+        }
+
+        c = c - 1;
+        t = setTimeout(function()
+        {
+            timedCount()
+        },1000);
+    }
+
+
+    // This displays the current question AND the choices
+    function displayCurrentQuestion()
+    {
+
+        if(c == 185) { c = 180; timedCount(); }
+        //console.log("In display current Question");
+        var question = questions[currentQuestion].question;
+        var questionClass = $(document).find(".quizContainer > .question");
+        var choiceList = $(document).find(".quizContainer > .choiceList");
+        var numChoices = questions[currentQuestion].choices.length;
+        // Set the questionClass text to the current question
+        $(questionClass).text(question);
+        // Remove all current <li> elements (if any)
+        $(choiceList).find("li").remove();
+        var choice;
+
+
+        for (i = 0; i < numChoices; i++)
+        {
+            choice = questions[currentQuestion].choices[i];
+
+            if(iSelectedAnswer[currentQuestion] == i) {
+                $('<li><input type="radio" class="radio-inline" checked="checked"  value=' + i + ' name="dynradio" />' +  ' ' + choice  + '</li>').appendTo(choiceList);
+            } else {
+                $('<li><input type="radio" class="radio-inline" value=' + i + ' name="dynradio" />' +  ' ' + choice  + '</li>').appendTo(choiceList);
+            }
+        }
+    }
+
+
+
+    function displayScore()
+    {
+        $(document).find(".quizContainer > .result").text("Vous avez répondu correctement sur: " + correctAnswers + "/10 Questions");
+        $(document).find(".quizContainer > .result").show();
+    }
+
+    function hideScore()
+    {
+        $(document).find(".result").hide();
+    }
+
+
+</script>
+<div class="quizContainer container-fluid well well-lg">
+    <div id="quiz1" class="text-center">
+
+        <h4 style="color:#FF0000;position:absolute;left:80%;top:3%;" align="center" ><span id="iTimeShow"></span><br/><span id='timer' style="font-size:25px;"></span></h4>
+        <h2>Test de la langue anglaise</h2>
+    </div>
+
+    <div class="question"></div>
+    <div class="choiceList"><ul class="choicelistdecoration"></ul></div>
+    <div class="quizMessage"></div>
+    <div class="result"></div>
+    <a href="http://cefolim.com/langues/" ><button class="preButton" >Quitter le Test</button></a>
+    <a id="Inscription"><button class="nextButton">Question Suivante</button></a>
+</div>
+</body>
+</html>
